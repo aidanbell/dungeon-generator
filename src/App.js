@@ -34,13 +34,13 @@ class App extends Component {
   }
 
   makeTile() {
-    return <div class="column" id={tiles[this.random(2)]}></div>
+    return <div id={tiles[this.random(2)]}></div>
   }
 
   draw() {
-    // If Column is pressed, one array is added to floorMap
+    // If Width is pressed, one array is added to floorMap as Column
     if (this.state.floorMap.length !== this.state.width) {
-      this.state.floorMap.push(new Array(this.state.height))
+      this.state.floorMap.push(new Array(this.state.height).fill(0).map(t => t += this.random(2)))
 
     }
     // if Row is pressed, one item is pushed to each array of floorMap
