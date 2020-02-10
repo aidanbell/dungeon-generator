@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 
 import './App.css';
 
-let column = [];
-let row = [];
+let tiles = ['floor', 'wall'];
 
 class App extends Component {
   constructor() {
@@ -12,6 +11,9 @@ class App extends Component {
       width: 1,
       height: 1,
       count: 1,
+      floorMap: [
+        [this.random(2)]
+      ]
     }
   }
 
@@ -31,11 +33,29 @@ class App extends Component {
     }
   }
 
-  draw() {
-    column = Array(this.state.height).fill(<div id="tile"></div>);
-    row = Array(this.state.width).fill(<div id="tile"></div>);
-    console.log(column)
+  makeTile() {
+    return <div class="column" id={tiles[this.random(2)]}></div>
   }
+
+  draw() {
+    // If Column is pressed, one array is added to floorMap
+    if (this.state.floorMap.length !== this.state.width) {
+      this.state.floorMap.push(new Array(this.state.height))
+
+    }
+    // if Row is pressed, one item is pushed to each array of floorMap
+    if (this.state.floorMap[0].length !== this.state.height) {
+      this.state.floorMap.forEach(t => {
+        t.push(this.random(2));
+      })
+    }
+    console.log(this.state.floorMap)
+  }
+
+  random(max) {
+    return Math.floor(Math.random() * Math.floor(max))
+  }
+
 
   render() {
     console.log("rendered")
@@ -52,9 +72,13 @@ class App extends Component {
         </div>
         <div id="dungeon_output">
           {this.draw()}
-          {column.map(x => {
-            return <div class="column">{column}</div>
-          })}
+          {this.state.floorMap.map(y => (
+            <div className="column">
+              {y.map(x => (
+                <div className="tile" id={tiles[x]}></div>
+              ))}
+            </div>
+          ))}
 
         </div>
       </div>
